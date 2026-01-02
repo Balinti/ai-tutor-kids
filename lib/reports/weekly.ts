@@ -86,7 +86,7 @@ export async function generateWeeklyReport(
   const stuckStandards: Array<{ code: string; accuracy: number }> = [];
   const nextWeekFocus: Array<{ code: string; reason: string }> = [];
 
-  for (const [code, stats] of standardStats) {
+  standardStats.forEach((stats, code) => {
     const accuracy = (stats.correct / stats.total) * 100;
 
     if (accuracy >= 80 && stats.total >= 3) {
@@ -95,7 +95,7 @@ export async function generateWeeklyReport(
       stuckStandards.push({ code, accuracy });
       nextWeekFocus.push({ code, reason: "Needs more practice" });
     }
-  }
+  });
 
   // Limit focus areas
   const focusAreas = nextWeekFocus.slice(0, 3);
