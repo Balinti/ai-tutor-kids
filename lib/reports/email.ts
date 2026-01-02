@@ -1,7 +1,9 @@
 import { Resend } from "resend";
 import { createAdminClient } from "@/lib/supabase/admin";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+function getResendClient() {
+  return new Resend(process.env.RESEND_API_KEY);
+}
 
 interface ReportEmailData {
   reportId: string;
@@ -24,7 +26,7 @@ export async function sendWeeklyReportEmail(data: ReportEmailData) {
   const html = generateEmailHtml(data);
 
   try {
-    await resend.emails.send({
+    await getResendClient().emails.send({
       from: process.env.RESEND_FROM_EMAIL || "WordProblem Coach <reports@example.com>",
       to: data.parentEmail,
       subject: `Weekly Progress Report: ${data.childName} (${data.weekStart} - ${data.weekEnd})`,

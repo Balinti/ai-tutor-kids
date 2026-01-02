@@ -1,15 +1,19 @@
 import Stripe from "stripe";
 
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2024-09-30.acacia",
-  typescript: true,
-});
+export function getStripeClient() {
+  return new Stripe(process.env.STRIPE_SECRET_KEY!, {
+    apiVersion: "2024-06-20",
+    typescript: true,
+  });
+}
 
 export async function createOrGetCustomer(
   email: string,
   name: string | null,
   stripeCustomerId: string | null
 ): Promise<string> {
+  const stripe = getStripeClient();
+
   if (stripeCustomerId) {
     // Verify the customer still exists
     try {
@@ -34,6 +38,7 @@ export async function createCheckoutSession(
   successUrl: string,
   cancelUrl: string
 ): Promise<string> {
+  const stripe = getStripeClient();
   const session = await stripe.checkout.sessions.create({
     customer: customerId,
     payment_method_types: ["card"],
@@ -56,6 +61,7 @@ export async function createBillingPortalSession(
   customerId: string,
   returnUrl: string
 ): Promise<string> {
+  const stripe = getStripeClient();
   const session = await stripe.billingPortal.sessions.create({
     customer: customerId,
     return_url: returnUrl,
@@ -65,5 +71,6 @@ export async function createBillingPortalSession(
 }
 
 export async function getSubscriptionDetails(subscriptionId: string) {
+  const stripe = getStripeClient();
   return stripe.subscriptions.retrieve(subscriptionId);
 }

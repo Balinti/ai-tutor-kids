@@ -3,9 +3,11 @@ import type { Step } from "@/lib/constants";
 import type { CoachResponse, StudentWork } from "./schemas";
 import { SYSTEM_PROMPT, buildCoachPrompt, COACH_RESPONSE_FORMAT } from "./prompts";
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+function getOpenAIClient() {
+  return new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+  });
+}
 
 interface Problem {
   prompt: string;
@@ -32,7 +34,7 @@ export async function getCoachResponse(
 
   const model = process.env.OPENAI_MODEL_COACH || "gpt-4o-mini";
 
-  const completion = await openai.chat.completions.create({
+  const completion = await getOpenAIClient().chat.completions.create({
     model,
     messages: [
       { role: "system", content: SYSTEM_PROMPT },
@@ -71,7 +73,7 @@ export async function checkStudentUnderstanding(
 ): Promise<{ understood: boolean; feedback: string }> {
   const model = process.env.OPENAI_MODEL_EDGE || "gpt-4o";
 
-  const completion = await openai.chat.completions.create({
+  const completion = await getOpenAIClient().chat.completions.create({
     model,
     messages: [
       {

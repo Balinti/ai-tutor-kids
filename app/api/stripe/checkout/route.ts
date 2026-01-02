@@ -3,7 +3,6 @@ import { z } from "zod";
 import { getUser, getProfile } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import {
-  stripe,
   createOrGetCustomer,
   createCheckoutSession,
 } from "@/lib/stripe/stripe";

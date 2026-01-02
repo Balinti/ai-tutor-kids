@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { headers } from "next/headers";
 import Stripe from "stripe";
-import { stripe } from "@/lib/stripe/stripe";
+import { getStripeClient } from "@/lib/stripe/stripe";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getPlanFromPriceId } from "@/lib/stripe/plans";
 
@@ -17,6 +17,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  const stripe = getStripeClient();
   let event: Stripe.Event;
 
   try {
