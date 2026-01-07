@@ -13,6 +13,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { PLANS, type PlanType } from "@/lib/constants";
 import { cn } from "@/lib/utils";
+import { isPlanAvailable } from "@/lib/stripe/plans";
 
 interface PricingTableProps {
   currentPlan?: PlanType;
@@ -82,18 +83,27 @@ export function PricingTable({
             </CardContent>
 
             <CardFooter>
-              <Button
-                className="w-full"
-                variant={isPopular ? "default" : "outline"}
-                disabled={isCurrentPlan || loading}
-                onClick={() => onSelectPlan?.(planKey)}
-              >
-                {isCurrentPlan
-                  ? "Current Plan"
-                  : planKey === "free"
-                    ? "Get Started"
-                    : "Upgrade"}
-              </Button>
+              {(() => {
+                const planAvailable = isPlanAvailable(planKey);
+                const isDisabled = isCurrentPlan || loading || !planAvailable;
+
+                return (
+                  <Button
+                    className="w-full"
+                    variant={isPopular ? "default" : "outline"}
+                    disabled={isDisabled}
+                    onClick={() => onSelectPlan?.(planKey)}
+                  >
+                    {isCurrentPlan
+                      ? "Current Plan"
+                      : !planAvailable
+                        ? "Coming Soon"
+                        : planKey === "free"
+                          ? "Get Started"
+                          : "Upgrade"}
+                  </Button>
+                );
+              })()}
             </CardFooter>
           </Card>
         );

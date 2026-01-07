@@ -10,6 +10,18 @@ export function getPriceId(plan: PlanType): string | null {
   return STRIPE_PRICE_IDS[plan] || null;
 }
 
+export function isPlanAvailable(plan: PlanType): boolean {
+  if (plan === "free") return true;
+  return Boolean(STRIPE_PRICE_IDS[plan]);
+}
+
+export function areUpgradesAvailable(): boolean {
+  return Boolean(
+    process.env.NEXT_PUBLIC_STRIPE_PRO_PRICE_ID ||
+    process.env.NEXT_PUBLIC_STRIPE_PRO_PLUS_PRICE_ID
+  );
+}
+
 export function getPlanFromPriceId(priceId: string): PlanType {
   if (priceId === process.env.NEXT_PUBLIC_STRIPE_PRO_PRICE_ID) {
     return "pro";

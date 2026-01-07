@@ -52,6 +52,9 @@ export async function createCheckoutSession(
     success_url: successUrl,
     cancel_url: cancelUrl,
     allow_promotion_codes: true,
+    metadata: {
+      app_name: "ai-tutor-kids",
+    },
   });
 
   return session.url!;

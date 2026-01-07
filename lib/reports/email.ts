@@ -1,7 +1,10 @@
 import { Resend } from "resend";
 import { createAdminClient } from "@/lib/supabase/admin";
 
-function getResendClient() {
+function getResendClient(): Resend | null {
+  if (!process.env.RESEND_API_KEY) {
+    return null;
+  }
   return new Resend(process.env.RESEND_API_KEY);
 }
 
@@ -21,12 +24,19 @@ interface ReportEmailData {
 }
 
 export async function sendWeeklyReportEmail(data: ReportEmailData) {
-  const supabase = createAdminClient();
+  const resend = getResendClient();
 
+  // Graceful fallback if email not configured
+  if (!resend) {
+    console.log(`[Email skipped] No RESEND_API_KEY configured. Would have sent report to ${data.parentEmail}`);
+    return { success: true, skipped: true };
+  }
+
+  const supabase = createAdminClient();
   const html = generateEmailHtml(data);
 
   try {
-    await getResendClient().emails.send({
+    await resend.emails.send({
       from: process.env.RESEND_FROM_EMAIL || "WordProblem Coach <reports@example.com>",
       to: data.parentEmail,
       subject: `Weekly Progress Report: ${data.childName} (${data.weekStart} - ${data.weekEnd})`,
