@@ -35,9 +35,9 @@ export default async function HomePage() {
               giving away the answer.
             </p>
             <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-              <Link href="/login">
+              <Link href="/try">
                 <Button size="xl">
-                  Start Free Trial
+                  Try It Free
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
@@ -199,12 +199,12 @@ export default async function HomePage() {
               Start Your Child&apos;s Math Journey Today
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-primary-foreground/80">
-              Try free with 3 problems per day. No credit card required.
+              Try it now - no signup required. Just pick a grade and start solving.
             </p>
             <div className="mt-8">
-              <Link href="/login">
+              <Link href="/try">
                 <Button size="xl" variant="secondary">
-                  Get Started Free
+                  Try It Now
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>

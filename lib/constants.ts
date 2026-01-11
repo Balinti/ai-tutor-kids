@@ -110,3 +110,7 @@ export const DOMAINS: Record<string, string> = {
   SP: "Statistics & Probability",
   F: "Functions",
 };
+
+// Trial mode configuration
+export const TRIAL_DURATION_MS = 3 * 60 * 1000; // 3 minutes
+export const TRIAL_PROBLEMS_COUNT = 3;

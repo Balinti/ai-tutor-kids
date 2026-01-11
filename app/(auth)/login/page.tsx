@@ -26,6 +26,7 @@ function LoginForm() {
   const [error, setError] = useState("");
 
   const redirect = searchParams.get("redirect") || "/parent";
+  const trial = searchParams.get("trial");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,10 +35,17 @@ function LoginForm() {
 
     try {
       const supabase = createClient();
+
+      // Build callback URL with redirect and optional trial param
+      let callbackUrl = `${window.location.origin}/auth/callback?redirect=${encodeURIComponent(redirect)}`;
+      if (trial) {
+        callbackUrl += `&trial=${encodeURIComponent(trial)}`;
+      }
+
       const { error } = await supabase.auth.signInWithOtp({
         email,
         options: {
-          emailRedirectTo: `${window.location.origin}/auth/callback?redirect=${encodeURIComponent(redirect)}`,
+          emailRedirectTo: callbackUrl,
         },
       });
 
@@ -63,6 +71,8 @@ function LoginForm() {
         <CardDescription>
           {sent
             ? "Check your email for a magic link"
+            : trial
+            ? "Create an account to save your trial progress"
             : "Sign in to your parent account"}
         </CardDescription>
       </CardHeader>
