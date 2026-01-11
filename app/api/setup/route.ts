@@ -200,6 +200,17 @@ CREATE TABLE IF NOT EXISTS audit_events (
 CREATE INDEX IF NOT EXISTS idx_audit_events_actor ON audit_events(actor_profile_id);
 CREATE INDEX IF NOT EXISTS idx_audit_events_type ON audit_events(event_type);
 CREATE INDEX IF NOT EXISTS idx_audit_events_created_at ON audit_events(created_at);
+
+-- Trial mode columns (for guest trials without login)
+ALTER TABLE children ADD COLUMN IF NOT EXISTS trial_id text;
+ALTER TABLE sessions ADD COLUMN IF NOT EXISTS trial_id text;
+CREATE INDEX IF NOT EXISTS idx_children_trial_id ON children(trial_id) WHERE trial_id IS NOT NULL;
+CREATE INDEX IF NOT EXISTS idx_sessions_trial_id ON sessions(trial_id) WHERE trial_id IS NOT NULL;
+
+-- Demo parent for trial users
+INSERT INTO profiles (id, email, full_name, role)
+VALUES ('00000000-0000-0000-0000-000000000000', 'demo@wordproblemcoach.app', 'Demo Parent', 'parent')
+ON CONFLICT (id) DO NOTHING;
 `;
 
 const RLS_AND_FUNCTIONS_SQL = `
