@@ -1,219 +1,96 @@
+"use client";
+
 import Link from "next/link";
-import {
-  Clock,
-  CheckCircle,
-  Brain,
-  LineChart,
-  Shield,
-  Users,
-  ArrowRight,
-} from "lucide-react";
-import { AppHeader } from "@/components/AppHeader";
-import { Footer } from "@/components/Footer";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { getProfile } from "@/lib/supabase/server";
+import { Progress } from "@/components/ui/progress";
 
-export default async function HomePage() {
-  const profile = await getProfile();
+const categories = [
+  {
+    id: "alphabet",
+    name: "Alphabet",
+    subtitle: "A to Z Fun!",
+    emoji: "🔤",
+    gradient: "from-pink-400 to-rose-500",
+    href: "/category/alphabet",
+  },
+  {
+    id: "numbers",
+    name: "Numbers",
+    subtitle: "Count & Learn!",
+    emoji: "🔢",
+    gradient: "from-blue-400 to-blue-600",
+    href: "/category/numbers",
+  },
+  {
+    id: "shapes",
+    name: "Shapes",
+    subtitle: "Draw & Match!",
+    emoji: "🔺",
+    gradient: "from-emerald-400 to-green-500",
+    href: "/category/shapes",
+  },
+  {
+    id: "colors",
+    name: "Colors",
+    subtitle: "Paint & Play!",
+    emoji: "🎨",
+    gradient: "from-purple-400 to-pink-400",
+    href: "/category/colors",
+  },
+  {
+    id: "languages",
+    name: "Languages",
+    subtitle: "World Words!",
+    emoji: "🌍",
+    gradient: "from-orange-400 to-orange-500",
+    href: "/category/languages",
+  },
+];
 
+export default function HomePage() {
   return (
-    <div className="flex min-h-screen flex-col">
-      <AppHeader user={profile} />
+    <div className="min-h-screen bg-slate-50">
+      <main className="container mx-auto px-4 py-8">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <div className="text-6xl mb-4">🦊</div>
+          <h1 className="text-4xl md:text-5xl font-bold text-blue-500 mb-2">
+            AI Kids Tutor
+          </h1>
+          <p className="text-xl text-gray-600">Learn, Play & Grow! 🌟</p>
+        </div>
 
-      <main className="flex-1">
-        {/* Hero Section */}
-        <section className="container py-20 md:py-32">
-          <div className="mx-auto max-w-3xl text-center">
-            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
-              Master Math Word Problems in{" "}
-              <span className="text-primary">10 Minutes a Day</span>
-            </h1>
-            <p className="mt-6 text-lg text-muted-foreground md:text-xl">
-              Socratic micro-tutoring for Grades 5-8. Our AI coach guides your
-              child through Common Core math word problems step-by-step, never
-              giving away the answer.
-            </p>
-            <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-              <Link href="/try">
-                <Button size="xl">
-                  Try It Free
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
-              </Link>
-              <Link href="/pricing">
-                <Button size="xl" variant="outline">
-                  View Pricing
-                </Button>
-              </Link>
-            </div>
+        {/* Progress Section */}
+        <div className="max-w-2xl mx-auto mb-10">
+          <div className="flex justify-between items-center mb-2">
+            <span className="text-gray-700 font-medium">Your Progress</span>
+            <span className="text-gray-500">0 ⭐</span>
           </div>
-        </section>
+          <Progress value={0} className="h-3" />
+        </div>
 
-        {/* Features Section */}
-        <section id="features" className="border-t bg-muted/50 py-20">
-          <div className="container">
-            <h2 className="text-center text-3xl font-bold">
-              Why Parents Love WordProblem Coach
-            </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-center text-muted-foreground">
-              Our evidence-based approach helps kids build real problem-solving
-              skills, not just memorize formulas.
-            </p>
-
-            <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-              <Card>
-                <CardContent className="pt-6">
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
-                    <Clock className="h-6 w-6 text-primary" />
-                  </div>
-                  <h3 className="text-lg font-semibold">10 Minutes Daily</h3>
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    Short, focused sessions fit into busy schedules. Just enough
-                    practice to build skills without burnout.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardContent className="pt-6">
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
-                    <Brain className="h-6 w-6 text-primary" />
-                  </div>
-                  <h3 className="text-lg font-semibold">Socratic Method</h3>
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    Our AI coach asks guiding questions, never gives away
-                    answers. Kids learn to think, not just copy.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardContent className="pt-6">
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
-                    <CheckCircle className="h-6 w-6 text-primary" />
-                  </div>
-                  <h3 className="text-lg font-semibold">Tool-Verified</h3>
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    Answers are verified by math engine, not just AI. Precise
-                    feedback every time.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardContent className="pt-6">
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
-                    <LineChart className="h-6 w-6 text-primary" />
-                  </div>
-                  <h3 className="text-lg font-semibold">Weekly Reports</h3>
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    Get detailed progress reports by Common Core standard. See
-                    exactly where your child needs help.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardContent className="pt-6">
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
-                    <Users className="h-6 w-6 text-primary" />
-                  </div>
-                  <h3 className="text-lg font-semibold">Multiple Children</h3>
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    Pro plans support multiple child profiles with individual
-                    progress tracking for each.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardContent className="pt-6">
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
-                    <Shield className="h-6 w-6 text-primary" />
-                  </div>
-                  <h3 className="text-lg font-semibold">Kid-Safe PIN</h3>
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    Kids can practice independently with a simple PIN. No email
-                    or password needed.
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </section>
-
-        {/* How It Works Section */}
-        <section className="py-20">
-          <div className="container">
-            <h2 className="text-center text-3xl font-bold">How It Works</h2>
-            <p className="mx-auto mt-4 max-w-2xl text-center text-muted-foreground">
-              Our 4-step framework teaches real problem-solving skills
-            </p>
-
-            <div className="mt-12 grid gap-8 md:grid-cols-4">
-              {[
-                {
-                  step: 1,
-                  title: "Read",
-                  description:
-                    "Identify key information and understand what the problem is asking",
-                },
-                {
-                  step: 2,
-                  title: "Represent",
-                  description:
-                    "Create equations, diagrams, or tables to visualize the problem",
-                },
-                {
-                  step: 3,
-                  title: "Solve",
-                  description:
-                    "Work through the representation step-by-step to find the answer",
-                },
-                {
-                  step: 4,
-                  title: "Check",
-                  description:
-                    "Verify the answer makes sense in the context of the problem",
-                },
-              ].map((item) => (
-                <div key={item.step} className="text-center">
-                  <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-xl font-bold text-primary-foreground">
-                    {item.step}
-                  </div>
-                  <h3 className="text-lg font-semibold">{item.title}</h3>
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    {item.description}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* CTA Section */}
-        <section className="border-t bg-primary py-20">
-          <div className="container text-center">
-            <h2 className="text-3xl font-bold text-primary-foreground">
-              Start Your Child&apos;s Math Journey Today
-            </h2>
-            <p className="mx-auto mt-4 max-w-xl text-primary-foreground/80">
-              Try it now - no signup required. Just pick a grade and start solving.
-            </p>
-            <div className="mt-8">
-              <Link href="/try">
-                <Button size="xl" variant="secondary">
-                  Try It Now
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </section>
+        {/* Category Cards */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+          {categories.map((category) => (
+            <Link
+              key={category.id}
+              href={category.href}
+              className={`
+                block p-6 rounded-2xl bg-gradient-to-br ${category.gradient}
+                transform transition-all duration-200
+                hover:scale-105 hover:shadow-lg
+                active:scale-95
+                cursor-pointer
+              `}
+            >
+              <div className="text-center text-white">
+                <div className="text-4xl mb-3">{category.emoji}</div>
+                <h2 className="text-xl font-bold mb-1">{category.name}</h2>
+                <p className="text-sm opacity-90">{category.subtitle}</p>
+              </div>
+            </Link>
+          ))}
+        </div>
       </main>
-
-      <Footer />
     </div>
   );
 }
