@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Kids Tutor - Learn & Play!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'kid-blue': '#3B82F6',
+              'kid-orange': '#F97316',
+              'kid-green': '#10B981',
+              'kid-purple': '#8B5CF6',
+              'kid-pink': '#EC4899',
+              'kid-yellow': '#F59E0B',
+            },
+            animation: {
+              'bounce-slow': 'bounce 2s infinite',
+              'wiggle': 'wiggle 1s ease-in-out infinite',
+              'float': 'float 3s ease-in-out infinite',
+              'pulse-slow': 'pulse 2s infinite',
+              'spin-slow': 'spin 3s linear infinite',
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      @keyframes wiggle {
+        0%, 7% { transform: rotateZ(0); }
+        15% { transform: rotateZ(-15deg); }
+        20% { transform: rotateZ(10deg); }
+        25% { transform: rotateZ(-10deg); }
+        30% { transform: rotateZ(6deg); }
+        35% { transform: rotateZ(-4deg); }
+        40%, 100% { transform: rotateZ(0); }
+      }
+
+      @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+      }
+
+      .confetti {
+        position: fixed;
+        width: 10px;
+        height: 10px;
+        background: #f0f;
+        animation: confetti-fall 3s linear forwards;
+      }
+
+      @keyframes confetti-fall {
+        0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+        100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+      }
+
+      .card-hover {
+        transition: all 0.3s ease;
+      }
+
+      .card-hover:hover {
+        transform: scale(1.05) rotate(2deg);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      }
+
+      .mascot {
+        animation: float 3s ease-in-out infinite;
+      }
+    </style>
+  </head>
+  <body class="bg-gradient-to-br from-blue-50 to-purple-50 min-h-screen">
+    <div id="app" class="container mx-auto px-4 py-6">
+      <!-- Header -->
+      <header class="text-center mb-8">
+        <div class="mascot inline-block text-6xl mb-4">🦊</div>
+        <h1 class="text-4xl md:text-6xl font-bold text-kid-blue mb-2">
+          AI Kids Tutor
+        </h1>
+        <p class="text-xl text-gray-600">Learn, Play & Grow! 🌟</p>
+
+        <!-- Progress Bar -->
+        <div class="mt-6 max-w-md mx-auto">
+          <div class="flex justify-between items-center mb-2">
+            <span class="text-sm font-medium text-gray-700">Your Progress</span>
+            <span id="progress-text" class="text-sm text-kid-purple">0 ⭐</span>
+          </div>
+          <div class="w-full bg-gray-200 rounded-full h-4">
+            <div id="progress-bar" class="bg-gradient-to-r from-kid-green to-kid-blue h-4 rounded-full transition-all duration-500" style="width: 0%"></div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Menu -->
+      <div id="main-menu" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8">
+        <!-- Alphabet Module -->
+        <div class="module-card card-hover bg-gradient-to-br from-red-400 to-pink-500 p-6 rounded-3xl text-white text-center cursor-pointer shadow-lg" onclick="showModule('alphabet')">
+          <div class="text-5xl mb-2">🔤</div>
+          <h3 class="text-xl font-bold">Alphabet</h3>
+          <p class="text-sm opacity-80">A to Z Fun!</p>
+        </div>
+
+        <!-- Numbers Module -->
+        <div class="module-card card-hover bg-gradient-to-br from-blue-400 to-blue-600 p-6 rounded-3xl text-white text-center cursor-pointer shadow-lg" onclick="showModule('numbers')">
+          <div class="text-5xl mb-2">🔢</div>
+          <h3 class="text-xl font-bold">Numbers</h3>
+          <p class="text-sm opacity-80">Count & Learn!</p>
+        </div>
+
+        <!-- Shapes Module -->
+        <div class="module-card card-hover bg-gradient-to-br from-green-400 to-emerald-500 p-6 rounded-3xl text-white text-center cursor-pointer shadow-lg" onclick="showModule('shapes')">
+          <div class="text-5xl mb-2">🔺</div>
+          <h3 class="text-xl font-bold">Shapes</h3>
+          <p class="text-sm opacity-80">Draw & Match!</p>
+        </div>
+
+        <!-- Colors Module -->
+        <div class="module-card card-hover bg-gradient-to-br from-purple-400 to-pink-500 p-6 rounded-3xl text-white text-center cursor-pointer shadow-lg" onclick="showModule('colors')">
+          <div class="text-5xl mb-2">🎨</div>
+          <h3 class="text-xl font-bold">Colors</h3>
+          <p class="text-sm opacity-80">Paint & Play!</p>
+        </div>
+
+        <!-- Language Module -->
+        <div class="module-card card-hover bg-gradient-to-br from-orange-400 to-red-500 p-6 rounded-3xl text-white text-center cursor-pointer shadow-lg" onclick="showModule('language')">
+          <div class="text-5xl mb-2">🌍</div>
+          <h3 class="text-xl font-bold">Languages</h3>
+          <p class="text-sm opacity-80">World Words!</p>
+        </div>
+      </div>
+
+      <!-- Module Content -->
+      <div id="module-content" class="hidden">
+        <div class="flex justify-between items-center mb-6">
+          <button onclick="backToMenu()" class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-full font-bold shadow-lg transition-all duration-200">
+            ← Back
+          </button>
+          <h2 id="module-title" class="text-3xl font-bold text-kid-blue"></h2>
+          <div class="text-2xl" id="module-stars">⭐ 0</div>
+        </div>
+        <div id="module-body" class="min-h-96"></div>
+      </div>
+    </div>
+
+    <!-- Sound Toggle -->
+    <div class="fixed bottom-4 right-4">
+      <button id="sound-toggle" onclick="toggleSound()" class="bg-kid-blue text-white p-4 rounded-full shadow-lg hover:scale-110 transition-all">
+        🔊
+      </button>
+      <div class="text-center mt-2">
+        <span class="text-xs bg-white px-2 py-1 rounded-full shadow-sm" id="sound-status">Sound On</span>
+      </div>
+    </div>
+
+    <script src="main.js"></script>
+    <script src="modules/alphabet.js"></script>
+    <script src="modules/numbers.js"></script>
+    <script src="modules/shapes.js"></script>
+    <script src="modules/colors.js"></script>
+    <script src="modules/language.js"></script>
+  </body>
+</html>
