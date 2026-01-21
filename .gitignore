@@ -1,5 +1,7 @@
 tmpclaude-*
+prompt_b64.txt
 .vercel
 node_modules
 .DS_Store
 *.log
+.env*.local
